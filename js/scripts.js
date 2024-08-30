@@ -169,14 +169,53 @@ function validarFormulario() {
 //do número de "incomodam" ser maior ou igual a 10.
 let contador = 0;
 function incrementar() {
+
+    const pContador = document.getElementById("contador");
+
     contador++;
+    pContador.textContent = contador
+    geraMusicaElefante(contador)
 }
 
 function decrementar() {
+    const pContador = document.getElementById("contador");
     contador--;
+    pContador.textContent = contador
+    geraMusicaElefante(contador)
 }
 
 function geraMusicaElefante(numVersos){
+
+    const paragrafoMusica = document.getElementById("paragrafoMusica")
+
+    function gerarNIncomandam(number){
+
+        if( number === 0){
+            return ""
+        }else{
+
+            return gerarNIncomandam(number - 1) + " Incomodam "
+
+        }
+
+    }
+
+
+
+    if( numVersos > 9){
+
+        paragrafoMusica.innerHTML += numVersos + " (...) Muita gente"
+
+    }
+    else if (numVersos % 2 === 0){
+
+        paragrafoMusica.innerHTML += numVersos + gerarNIncomandam(numVersos) + "Muito mais! </br>"
+
+    }else {
+
+        paragrafoMusica.innerHTML += numVersos + " Incomodam Muita gente! </br>"
+
+    }
 
 }
 
@@ -188,12 +227,12 @@ function filtrarItens() {
     const itens = document.getElementById('lista-professores').getElementsByTagName('li');
 
     //Converter o comando de repetição abaixo em uma callback que recebe como parâmetro uma arrow function
-    for (let i = 0; i < itens.length; i++) {
-        let item = itens[i].textContent || itens[i].innerText;
-        if (item.toLowerCase().indexOf(filtro) > -1) {
-            itens[i].style.display = "";
-        } else {
-            itens[i].style.display = "none";
-        }
-    }
+
+    let professores = Array.prototype.slice.call(itens)
+
+    professores.filter(professor => professor.textContent.toLowerCase().indexOf(filtro) > -1).map(professor => professor.style.display = "")
+    professores.filter(professor => professor.textContent.toLowerCase().indexOf(filtro) === -1).map(professor => professor.style.display = "none")
+
+
+
 }
